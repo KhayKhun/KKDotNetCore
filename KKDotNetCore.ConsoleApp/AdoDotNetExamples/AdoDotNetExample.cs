@@ -10,6 +10,13 @@ namespace KKDotNetCore.ConsoleApp.AdoDotNetExamples
 {
     public class AdoDotNetExample
     {
+        private readonly SqlConnectionStringBuilder _scsb = new SqlConnectionStringBuilder()
+        {
+            DataSource = ".",
+            InitialCatalog = "UserDb",
+            UserID = "sa",
+            Password = "sa@123456"
+        };
         public void Run()
         {
             //Read();
@@ -17,19 +24,12 @@ namespace KKDotNetCore.ConsoleApp.AdoDotNetExamples
             //Edit(200);
             //Create("John",22);
             //Update(5,"Updated",22);
-            //Delete(11);
+            //Delete(13);
         }
         private void Read()
         {
-            SqlConnectionStringBuilder scsb = new SqlConnectionStringBuilder()
-            {
-                DataSource = ".",
-                InitialCatalog = "UserDb",
-                UserID = "sa",
-                Password = "sa@123456"
-            };
 
-            SqlConnection connection = new SqlConnection(scsb.ConnectionString);
+            SqlConnection connection = new SqlConnection(_scsb.ConnectionString);
 
             connection.Open();
 
@@ -58,15 +58,7 @@ namespace KKDotNetCore.ConsoleApp.AdoDotNetExamples
 
         private void Edit(int id)
         {
-            SqlConnectionStringBuilder scsb = new SqlConnectionStringBuilder()
-            {
-                DataSource = ".",
-                InitialCatalog = "UserDb",
-                UserID = "sa",
-                Password = "sa@123456"
-            };
-
-            SqlConnection connection = new SqlConnection(scsb.ConnectionString);
+            SqlConnection connection = new SqlConnection(_scsb.ConnectionString);
 
             connection.Open();
 
@@ -100,15 +92,7 @@ namespace KKDotNetCore.ConsoleApp.AdoDotNetExamples
 
         private void Create(string name, int age)
         {
-            SqlConnectionStringBuilder scsb = new SqlConnectionStringBuilder()
-            {
-                DataSource = ".",
-                InitialCatalog = "UserDb",
-                UserID = "sa",
-                Password = "sa@123456"
-            };
-
-            SqlConnection connection = new SqlConnection(scsb.ConnectionString);
+            SqlConnection connection = new SqlConnection(_scsb.ConnectionString);
 
             connection.Open();
 
@@ -170,15 +154,7 @@ INSERT INTO [dbo].[Tbl_User]
 
         private void Delete(int id)
         {
-            SqlConnectionStringBuilder scsb = new SqlConnectionStringBuilder()
-            {
-                DataSource = ".",
-                InitialCatalog = "UserDb",
-                UserID = "sa",
-                Password = "sa@123456"
-            };
-
-            SqlConnection connection = new SqlConnection(scsb.ConnectionString);
+            SqlConnection connection = new SqlConnection(_scsb.ConnectionString);
 
             connection.Open();
 
