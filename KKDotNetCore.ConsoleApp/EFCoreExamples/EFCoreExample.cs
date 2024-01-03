@@ -17,7 +17,8 @@ namespace KKDotNetCore.ConsoleApp.EFCoreExamples
             //Edit(2);
             //Create("EF", 12);
             //Update(1,"Khun* edited", 12);
-            Delete(15);
+            //Delete(15);
+            Console.WriteLine("Csa");
         }
         private void Read()
         {
