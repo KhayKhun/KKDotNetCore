@@ -4,24 +4,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KKDotNetCore.RestApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly AppDbContext _dbContext = new AppDbContext();
 
         [HttpGet]
         public IActionResult GetUsers()
         {
-            List<UserDataModel> lst = _dbContext.Users.ToList();
+            List<UserDataModel> lst = _dbContext.User.ToList();
             return Ok(lst);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetUser(int id)
         {
-            UserDataModel? item = _dbContext.Users.FirstOrDefault(x => x.User_Id == id);
-            if(item is null)
+            UserDataModel? item = _dbContext.User.FirstOrDefault(x => x.UserId == id);
+            if (item is null)
             {
                 return NotFound("No user found");
             }
@@ -31,7 +31,7 @@ namespace KKDotNetCore.RestApi.Controllers
         [HttpGet("pegi")]
         public IActionResult GetPeginationBlogs(int PageNo, int PageSize)
         {
-            var lst = _dbContext.Users
+            var lst = _dbContext.User
                 .Skip((PageNo - 1) * PageSize)
                 .Take(PageSize)
                 .ToList();
@@ -56,7 +56,7 @@ namespace KKDotNetCore.RestApi.Controllers
         [HttpPost]
         public IActionResult CreateUser(UserDataModel user)
         {
-            _dbContext.Users.Add(user);
+            _dbContext.User.Add(user);
             int result = _dbContext.SaveChanges();
 
             string message = result > 0 ? "Saved user." : "Failed to save";
@@ -65,17 +65,19 @@ namespace KKDotNetCore.RestApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateUser(int id,UserDataModel user)
+        public IActionResult UpdateUser(int id, UserDataModel user)
         {
-            UserDataModel? item = _dbContext.Users.FirstOrDefault(x => x.User_Id == id);
+            UserDataModel? item = _dbContext.User.FirstOrDefault(x => x.UserId == id);
 
             if (item is null)
             {
                 return NotFound("No user found");
             }
 
-            item.User_Name = user.User_Name;
-            item.User_Age = user.User_Age;
+            item.UserName = user.UserName;
+            item.UserPhone = user.UserPhone;
+            item.UserAddress = user.UserAddress;
+            item.UserEmail = user.UserEmail;
 
             int result = _dbContext.SaveChanges();
 
@@ -87,19 +89,27 @@ namespace KKDotNetCore.RestApi.Controllers
         [HttpPatch("{id}")]
         public IActionResult PatchUser(int id, UserDataModel user)
         {
-            UserDataModel? item = _dbContext.Users.FirstOrDefault(x => x.User_Id == id);
+            UserDataModel? item = _dbContext.User.FirstOrDefault(x => x.UserId == id);
 
             if (item is null)
             {
                 return NotFound("No user found");
             }
-            if(!string.IsNullOrEmpty(user.User_Name))
+            if (!string.IsNullOrEmpty(user.UserPhone))
             {
-                item.User_Name = user.User_Name;
+                item.UserPhone = user.UserPhone;
             }
-            if(user.User_Age > 0)
+            if (!string.IsNullOrEmpty(user.UserName))
             {
-                item.User_Age = user.User_Age;
+                item.UserName = user.UserName;
+            }
+            if (!string.IsNullOrEmpty(user.UserAddress))
+            {
+                item.UserAddress = user.UserAddress;
+            }
+            if (!string.IsNullOrEmpty(user.UserEmail))
+            {
+                item.UserEmail = user.UserEmail;
             }
 
             int result = _dbContext.SaveChanges();
@@ -112,9 +122,9 @@ namespace KKDotNetCore.RestApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteUsers(int id)
         {
-            UserDataModel? item = _dbContext.Users.FirstOrDefault(x => x.User_Id == id);
+            UserDataModel? item = _dbContext.User.FirstOrDefault(x => x.UserId == id);
 
-            if(item is null)
+            if (item is null)
             {
                 return NotFound("User not found");
             }

@@ -28,7 +28,7 @@ namespace KKDotNetCore.ConsoleApp.HttpClientExamples
             //    User_Age = 99,
             //    User_Name = "name updated",
             //});
-            await PatchAsync(2, new UserDataModel()
+            await PatchAsync(2, new UserOldDataModel()
             {
                 User_Name = "nn name patched"
             });
@@ -43,8 +43,8 @@ namespace KKDotNetCore.ConsoleApp.HttpClientExamples
             if (res.IsSuccessStatusCode)
             {
                 string jsonStr = await res.Content.ReadAsStringAsync();
-                List<UserDataModel> lst = JsonConvert.DeserializeObject<List<UserDataModel>>(jsonStr)!;
-                foreach (UserDataModel item in lst)
+                List<UserOldDataModel> lst = JsonConvert.DeserializeObject<List<UserOldDataModel>>(jsonStr)!;
+                foreach (UserOldDataModel item in lst)
                 {
                     Console.WriteLine($"User_Id => {item.User_Id}");
                     Console.WriteLine($"User_Name => {item.User_Name}");
@@ -63,7 +63,7 @@ namespace KKDotNetCore.ConsoleApp.HttpClientExamples
             if (res.IsSuccessStatusCode)
             {
                 string jsonStr = await res.Content.ReadAsStringAsync();
-                UserDataModel item = JsonConvert.DeserializeObject<UserDataModel>(jsonStr)!;
+                UserOldDataModel item = JsonConvert.DeserializeObject<UserOldDataModel>(jsonStr)!;
                     Console.WriteLine($"User_Id => {item.User_Id}");
                     Console.WriteLine($"User_Name => {item.User_Name}");
                     Console.WriteLine($"User_Age => {item.User_Age}");
@@ -72,7 +72,7 @@ namespace KKDotNetCore.ConsoleApp.HttpClientExamples
 
         }
 
-        private async Task CreateAsync(UserDataModel user)
+        private async Task CreateAsync(UserOldDataModel user)
         {
             HttpClient client = new HttpClient();
 
@@ -83,7 +83,7 @@ namespace KKDotNetCore.ConsoleApp.HttpClientExamples
 
         }
 
-        private async Task UpdateAsync(int id,UserDataModel user)
+        private async Task UpdateAsync(int id,UserOldDataModel user)
         {
             HttpClient client = new HttpClient();
 
@@ -93,7 +93,7 @@ namespace KKDotNetCore.ConsoleApp.HttpClientExamples
             Console.WriteLine(await res.Content.ReadAsStringAsync());
 
         }
-        private async Task PatchAsync(int id,UserDataModel user)
+        private async Task PatchAsync(int id,UserOldDataModel user)
         {
             HttpClient client = new HttpClient();
 

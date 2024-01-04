@@ -54,8 +54,8 @@ namespace KKDotNetCore.ConsoleApp.DapperExamples
       ,[User_Age]
   FROM [UserDb].[dbo].[Tbl_User]
 ";
-                List<UserDataModel> lst = db.Query<UserDataModel>(query).ToList();
-                foreach(UserDataModel item in lst)
+                List<UserOldDataModel> lst = db.Query<UserOldDataModel>(query).ToList();
+                foreach(UserOldDataModel item in lst)
                 {
                     Console.WriteLine($"User_Id => {item.User_Id}");
                     Console.WriteLine($"User_Name => {item.User_Name}");
@@ -72,7 +72,7 @@ namespace KKDotNetCore.ConsoleApp.DapperExamples
       ,[User_Age]
   FROM [UserDb].[dbo].[Tbl_User] WHERE User_Id = @User_Id
 ";
-            UserDataModel? item = db.Query<UserDataModel>(query, new UserDataModel {User_Id = id}).FirstOrDefault();
+            UserOldDataModel? item = db.Query<UserOldDataModel>(query, new UserOldDataModel {User_Id = id}).FirstOrDefault();
 
              if(item is null)
             {
@@ -99,7 +99,7 @@ INSERT INTO [dbo].[Tbl_User]
 
             using IDbConnection db = new SqlConnection(_scsb.ConnectionString); //using: Clear from memory after used. Cannot close or delete file while using.
 
-            int result = db.Execute(query, new UserDataModel
+            int result = db.Execute(query, new UserOldDataModel
             {
                 User_Name = name,
                 User_Age = age
@@ -122,7 +122,7 @@ INSERT INTO [dbo].[Tbl_User]
 
             using IDbConnection db = new SqlConnection(_scsb.ConnectionString); //using: Clear from memory after used. Cannot close or delete file while using.
 
-            int result = db.Execute(query, new UserDataModel
+            int result = db.Execute(query, new UserOldDataModel
             {
                 User_Name = name,
                 User_Age = age,
@@ -144,7 +144,7 @@ INSERT INTO [dbo].[Tbl_User]
 
             using IDbConnection db = new SqlConnection(_scsb.ConnectionString); //using: Clear from memory after used. Cannot close or delete file while using.
 
-            int result = db.Execute(query, new UserDataModel
+            int result = db.Execute(query, new UserOldDataModel
             {
                 User_Id = id
             });

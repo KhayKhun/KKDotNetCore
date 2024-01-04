@@ -22,8 +22,8 @@ namespace KKDotNetCore.ConsoleApp.EFCoreExamples
         }
         private void Read()
         {
-            List<UserDataModel> lst = _dbContext.Users.ToList();
-            foreach (UserDataModel item in lst)
+            List<UserOldDataModel> lst = _dbContext.Users.ToList();
+            foreach (UserOldDataModel item in lst)
             {
                 Console.WriteLine($"User_Id => {item.User_Id}");
                 Console.WriteLine($"User_Name => {item.User_Name}");
@@ -33,7 +33,7 @@ namespace KKDotNetCore.ConsoleApp.EFCoreExamples
         }
         private void Edit(int id)
         {
-            UserDataModel? item = _dbContext.Users.FirstOrDefault(x => x.User_Id == id);
+            UserOldDataModel? item = _dbContext.Users.FirstOrDefault(x => x.User_Id == id);
 
             if (item is null){
                 Console.WriteLine("No user found");
@@ -48,7 +48,7 @@ namespace KKDotNetCore.ConsoleApp.EFCoreExamples
         }
         private void Create(string name,int age)
         {
-            _dbContext.Users.Add(new UserDataModel
+            _dbContext.Users.Add(new UserOldDataModel
             {
                 User_Name = name,
                 User_Age = age
@@ -63,7 +63,7 @@ namespace KKDotNetCore.ConsoleApp.EFCoreExamples
 
         private void Update(int id,string name,int age)
         {
-            UserDataModel? item = _dbContext.Users.AsNoTracking().FirstOrDefault(x => x.User_Id == id);
+            UserOldDataModel? item = _dbContext.Users.AsNoTracking().FirstOrDefault(x => x.User_Id == id);
             //AsNoTracking(): Just select the copy data from db. As we can't select while other are inserting.
 
             if (item is null)
@@ -84,7 +84,7 @@ namespace KKDotNetCore.ConsoleApp.EFCoreExamples
         }
         private void Delete(int id)
         {
-            UserDataModel? item = _dbContext.Users.FirstOrDefault(x => x.User_Id == id);
+            UserOldDataModel? item = _dbContext.Users.FirstOrDefault(x => x.User_Id == id);
 
             if (item is null)
             {

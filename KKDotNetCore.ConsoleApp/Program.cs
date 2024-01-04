@@ -2,6 +2,7 @@
 using KKDotNetCore.ConsoleApp.DapperExamples;
 using KKDotNetCore.ConsoleApp.EFCoreExamples;
 using KKDotNetCore.ConsoleApp.HttpClientExamples;
+using KKDotNetCore.ConsoleApp.RefitExamples;
 using KKDotNetCore.ConsoleApp.RestSharpExamples;
 using System.Data;
 using System.Data.SqlClient;
@@ -18,7 +19,11 @@ using System.Data.SqlClient;
 //HttpClientExample httpClientExample = new HttpClientExample();
 //httpClientExample.Run();
 
-RestSharpExample rse = new RestSharpExample();
-rse.Run();
+//RestSharpExample rse = new RestSharpExample();
+//rse.Run();
 
+Console.WriteLine("Waiting for api...");
 Console.ReadKey();
+
+RefitExample refitExample = new RefitExample();
+await refitExample.Run();

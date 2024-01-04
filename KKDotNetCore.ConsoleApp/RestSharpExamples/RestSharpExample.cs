@@ -28,7 +28,7 @@ namespace KKDotNetCore.ConsoleApp.RestSharpExamples
             //    User_Age = 18,
             //    User_Name = "Nang Nang",
             //});
-            await PatchAsync(2, new UserDataModel()
+            await PatchAsync(2, new UserOldDataModel()
             {
                 User_Name = "Nang Nang patched",
             });
@@ -45,8 +45,8 @@ namespace KKDotNetCore.ConsoleApp.RestSharpExamples
             if (res.IsSuccessStatusCode)
             {
                 string jsonStr = res.Content!;
-                List<UserDataModel> lst = JsonConvert.DeserializeObject<List<UserDataModel>>(jsonStr)!;
-                foreach (UserDataModel item in lst)
+                List<UserOldDataModel> lst = JsonConvert.DeserializeObject<List<UserOldDataModel>>(jsonStr)!;
+                foreach (UserOldDataModel item in lst)
                 {
                     Console.WriteLine($"User_Id => {item.User_Id}");
                     Console.WriteLine($"User_Name => {item.User_Name}");
@@ -66,7 +66,7 @@ namespace KKDotNetCore.ConsoleApp.RestSharpExamples
             if (res.IsSuccessStatusCode)
             {
                 string jsonStr = res.Content!;
-                UserDataModel item = JsonConvert.DeserializeObject<UserDataModel>(jsonStr)!;
+                UserOldDataModel item = JsonConvert.DeserializeObject<UserOldDataModel>(jsonStr)!;
                 Console.WriteLine($"User_Id => {item.User_Id}");
                 Console.WriteLine($"User_Name => {item.User_Name}");
                 Console.WriteLine($"User_Age => {item.User_Age}");
@@ -75,7 +75,7 @@ namespace KKDotNetCore.ConsoleApp.RestSharpExamples
 
         }
 
-        private async Task CreateAsync(UserDataModel user)
+        private async Task CreateAsync(UserOldDataModel user)
         {
 
             RestClient client = new RestClient();
@@ -87,7 +87,7 @@ namespace KKDotNetCore.ConsoleApp.RestSharpExamples
 
         }
 
-        private async Task UpdateAsync(int id, UserDataModel user)
+        private async Task UpdateAsync(int id, UserOldDataModel user)
         {
             RestClient client = new RestClient();
             RestRequest request = new RestRequest($"{_endpoint}/{id}", Method.Put);
@@ -98,7 +98,7 @@ namespace KKDotNetCore.ConsoleApp.RestSharpExamples
 
         }
 
-        private async Task PatchAsync(int id, UserDataModel user)
+        private async Task PatchAsync(int id, UserOldDataModel user)
         {
             RestClient client = new RestClient();
             RestRequest request = new RestRequest($"{_endpoint}/{id}", Method.Patch);

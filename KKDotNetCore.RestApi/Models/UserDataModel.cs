@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 
 namespace KKDotNetCore.RestApi
 {
-    [Table("Tbl_User")]
+    [Table("Tbl_Users")]
     public class UserDataModel
     {
         [Key]
-        [Column("User_Id")] // in case if names not match with names from db
-        public int User_Id { get; set; } // default 0 for 'int'
-        public string? User_Name { get; set; } 
-        public int User_Age { get; set; } 
+        public int UserId { get; set; }
+        public String? UserName { get; set; }
+        public String? UserEmail { get; set; }
+        public String? UserPhone { get; set; }
+        public String? UserAddress { get; set; }
     }
 }

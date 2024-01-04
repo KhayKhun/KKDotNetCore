@@ -25,6 +25,7 @@ namespace KKDotNetCore.RestApi
 
 
         }
-        public DbSet<UserDataModel> Users { set; get; }
+        public DbSet<UserOldDataModel> Users { set; get; }
+        public DbSet<UserDataModel> User { set; get; }
     }
 }

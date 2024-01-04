@@ -30,12 +30,12 @@ namespace KKDotNetCore.RestApi.Controllers
       ,[User_Age]
   FROM [UserDb].[dbo].[Tbl_User]
 ";
-            List<UserDataModel> lst = db.Query<UserDataModel>(query).ToList();
+            List<UserOldDataModel> lst = db.Query<UserOldDataModel>(query).ToList();
             return Ok(lst);
         }
 
         [HttpPost]
-        public IActionResult CreateUser(UserDataModel user)
+        public IActionResult CreateUser(UserOldDataModel user)
         {
             string query = @"
 INSERT INTO [dbo].[Tbl_User]
@@ -55,7 +55,7 @@ INSERT INTO [dbo].[Tbl_User]
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateUser(int id, UserDataModel user)
+        public IActionResult UpdateUser(int id, UserOldDataModel user)
         {
 
             using IDbConnection db = new SqlConnection(_scsb.ConnectionString); //using: Clear from memory after used. Cannot close or delete file while using.
@@ -74,7 +74,7 @@ INSERT INTO [dbo].[Tbl_User]
       ,[User_Age] = @User_Age
  WHERE User_Id = @User_Id";
 
-            int result = db.Execute(query, new UserDataModel
+            int result = db.Execute(query, new UserOldDataModel
             {
                 User_Name = user.User_Name,
                 User_Age = user.User_Age,
@@ -87,7 +87,7 @@ INSERT INTO [dbo].[Tbl_User]
         }
 
         [HttpPatch("{id}")]
-        public IActionResult PatchUser(int id, UserDataModel user)
+        public IActionResult PatchUser(int id, UserOldDataModel user)
         {
 
             using IDbConnection db = new SqlConnection(_scsb.ConnectionString); //using: Clear from memory after used. Cannot close or delete file while using.
@@ -113,7 +113,7 @@ INSERT INTO [dbo].[Tbl_User]
    SET {condition}
  WHERE User_Id = @User_Id";
 
-            int result = db.Execute(query, new UserDataModel
+            int result = db.Execute(query, new UserOldDataModel
             {
                 User_Name = user.User_Name,
                 User_Age = user.User_Age,
@@ -134,7 +134,7 @@ INSERT INTO [dbo].[Tbl_User]
 
             using IDbConnection db = new SqlConnection(_scsb.ConnectionString); //using: Clear from memory after used. Cannot close or delete file while using.
 
-            int result = db.Execute(query, new UserDataModel
+            int result = db.Execute(query, new UserOldDataModel
             {
                 User_Id = id
             });

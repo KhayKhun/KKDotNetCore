@@ -26,6 +26,6 @@ namespace KKDotNetCore.ConsoleApp.EFCoreExamples
 
 
         }
-        public DbSet<UserDataModel> Users { set; get; }
+        public DbSet<UserOldDataModel> Users { set; get; }
     }
 }
