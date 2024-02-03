@@ -1,0 +1,15 @@
+.gc-event{
+    background-color: rgb(220, 255, 231);
+    padding: 4px 9px;
+    border-radius: 7px;
+    border: 1px solid rgb(172, 255, 199);
+    font-size: 12px;
+}
+.gc-event:hover{
+    background-color: rgb(255, 224, 246);
+    border: 1px solid rgb(253, 155, 196);
+
+}
+td{
+    cursor: pointer;
+}
