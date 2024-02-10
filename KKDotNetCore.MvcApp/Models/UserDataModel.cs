@@ -13,4 +13,5 @@ namespace KKDotNetCore.MvcApp
         public String? UserPhone { get; set; }
         public String? UserAddress { get; set; }
     }
+
 }

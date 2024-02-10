@@ -1,0 +1,62 @@
+﻿@model UserDataModel
+@{
+
+}
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Name</label>
+        <input type="text" class="form-control" value="@Model.UserName" id="UserName" placeholder="">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Email</label>
+    <input type="email" class="form-control" value="@Model.UserEmail" id="UserEmail" placeholder="">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Phone</label>
+    <input type="text" class="form-control" value="@Model.UserPhone" id="UserPhone" placeholder="">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Address</label>
+    <input type="text" class="form-control" value="@Model.UserAddress" id="UserAddress" placeholder="">
+    </div>
+    <a href="/Blogs" class="btn btn-dark">Cancel</a>
+    <button id="btnUpdate" class="btn btn-success">Update</button>
+
+
+
+@section scripts {
+
+    <script>
+
+        $('#btnUpdate').click(function (e) {
+            const name = $("#UserName").val();
+            const email = $("#UserEmail").val();
+            const phone = $("#UserPhone").val();
+            const address = $("#UserAddress").val();
+
+            const rm = {
+                UserName: name,
+                UserEmail: email,
+                UserPhone: phone,
+                UserAddress: address
+            };
+            console.log(rm);
+            $.ajax({
+                type: "POST",
+                url: "/UserAjax/Update/@Model.UserId",
+                data: {
+                    reqModel: rm
+                },
+                dataType: "json",
+                // contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    alert(data.message);
+                    location.href = "/UserAjax"
+                },
+                error: function (ex) {
+                    console.log(ex);
+                }
+            }
+            );
+        })
+    </script>
+}

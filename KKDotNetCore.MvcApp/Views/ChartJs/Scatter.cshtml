@@ -1,0 +1,66 @@
+﻿@{
+    List<ScatterDotPosition> _data1 = Model.data1;
+    List<ScatterDotPosition> _data2 = Model.data2;
+}
+
+<div style="width: 600px;"><canvas id="scatter"></canvas></div>
+
+@section scripts{
+    <script>
+
+        const _data1 = @(Html.Raw(JsonConvert.SerializeObject(_data1)))
+        const _data2 = @(Html.Raw(JsonConvert.SerializeObject(_data2)))
+
+        const data = {
+            datasets: [{
+                label: 'Ni Ni',
+                data: _data1,
+                backgroundColor: 'rgb(255, 99, 132)'
+            },
+            {
+                label: 'Pyar Pyar',
+                data: _data2,
+                backgroundColor: 'rgb(132, 22, 250)'
+            }],
+        };
+        const config = {
+            type: 'scatter',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Chart.js Scatter Chart'
+                    }
+                },
+
+                scales: {
+                    y: {
+                        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                        position: 'left',
+                        ticks: {
+                            color: '#ff3400'
+                        }
+                    },
+                    y2: {
+                        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                        position: 'right',
+                        reverse: true,
+                        ticks: {
+                            color: '#0022ff'
+                        },
+                        grid: {
+                            drawOnChartArea: false // only want the grid lines for one axis to show up
+                        }
+                    }
+                }
+            },
+
+        };
+        const myChart = new Chart($('#scatter'), config);
+    </script>
+}
