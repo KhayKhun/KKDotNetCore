@@ -1,0 +1,57 @@
+﻿<div class="container">
+
+    <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input class="form-control" id="username">
+    </div>
+    <div class="mb-3">
+        <label for="fullname" class="form-label">Full name</label>
+        <input class="form-control" id="fullname">
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="email" placeholder="name@example.com">
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="Password">
+    </div>
+
+    <button id="btnCreate">Create User</button>
+    <a href="/auth">or Login</a>
+
+</div>
+
+@section scripts {
+    <script>
+        $('#btnCreate').click(function (e) {
+            const Email = $("#email").val();
+            const Password = $("#password").val();
+            const UserName = $("#username").val();
+            const FullName = $("#fullname").val();
+
+            const rm = { Email, Password, UserName, FullName };
+
+            console.log(rm);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Save", "Auth")',
+                data: {
+                    reqModel: rm
+                },
+                dataType: "json",
+                // contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    console.log(data);
+                    alert('success');
+                    location.href = "/auth/user/" + data.userId
+                },
+                error: function (ex) {
+                    alert('failed');
+                    console.log(ex.status);
+                }
+            }
+            );
+        })
+    </script>
+}

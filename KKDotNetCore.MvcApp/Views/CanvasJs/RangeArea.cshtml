@@ -19,6 +19,7 @@
 				const _titleY = @(Html.Raw(JsonConvert.SerializeObject(_titleY)))
 				const _titleX = @(Html.Raw(JsonConvert.SerializeObject(_titleX)))
 				const _suffixY = @(Html.Raw(JsonConvert.SerializeObject(_suffixY)))
+
 				const dataPointsWithISOString = @(Html.Raw(JsonConvert.SerializeObject(_dataPoints)))
 
 				const _dataPoints = dataPointsWithISOString.map(dp => { 

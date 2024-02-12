@@ -1,0 +1,121 @@
+﻿@{
+    var _user = Model.user;
+    var _lst = Model.lst;
+    Console.WriteLine(_user is null);
+    Console.WriteLine(_user);
+    Console.WriteLine(_lst);
+}
+
+<div>
+    <h3>User Info:</h3>
+    
+    <div>
+        <p>username: @(_user.UserName)</p>
+        <p>fullname: @(_user.FullName)</p>
+        <p>email: @(_user.Email)</p>
+    </div>
+
+    <a href="/auth/edit/@(_user.UserId)" class="btn-light">Edit Profile</a>
+    <a href="/auth/password/@(_user.UserId)" class="btn-light">Change Password</a>
+    <a href="/auth">Logout</a>
+    <button id="btnDelete" class="btn-danger">Delete user</button>
+
+    <div class="container">
+        @if (_user.Role == "admin")
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Full name</th>
+                        <th scope="col">Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in _lst)
+                    {
+
+                        <tr>
+                            <th scope="row">
+
+                            @if (user.UserId == _user.UserId)
+                            {
+                                <p>You</p>
+                            }
+                            else if (user.Role == "admin")
+                            {
+                                <p>Admin</p>
+                            }
+                            else
+                            {
+                                <button type="button" id="btnPromote" class="btn btn-danger btn-delete" data-user-id="@user.UserId">Promote Admin</button>
+                            }
+                                
+                            </th>
+                            <td>@user.UserName</td>
+                            <td>@user.FullName</td>
+                            <td>@user.Email</td>
+                        </tr>
+                }
+                </tbody>
+            </table>
+
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        const _user = @(Html.Raw(JsonConvert.SerializeObject(_user)));
+        console.log(_user)
+        $('#btnDelete').click(function (e) { 
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Delete", "Auth")',
+                data: {
+                    reqId:'@(_user.UserId)'
+                },
+                dataType: "json",
+                // contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    console.log(data);
+                    alert('success');
+                    location.href = "/auth/"
+                },
+                error: function (ex) {
+                    alert('failed');
+                    console.log(ex.status);
+                }
+            }
+            );
+        })
+        $('#btnPromote').click(function (e) {
+            e.preventDefault();
+
+            const id = $(this).data('user-id');
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Promote", "Auth")',
+                data: {
+                    reqId: id
+                },
+                dataType: "json",
+                // contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    console.log(data);
+                    alert('Promoted a user to admin');
+                    location.href = "/auth/user/@(_user.UserId)"
+                },
+                error: function (ex) {
+                    alert('failed');
+                    console.log(ex.status);
+                }
+            }
+            );
+        })
+    </script>
+    
+}

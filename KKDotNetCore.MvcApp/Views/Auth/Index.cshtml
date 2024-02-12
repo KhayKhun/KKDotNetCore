@@ -1,0 +1,52 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="container">
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="email" placeholder="name@example.com">
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="*******">
+    </div>
+
+    <button id="btnLogin">Login</button>
+    <a href="/auth/create">Create new auser</a>
+
+</div>
+
+@section scripts{
+    <script>
+            $('#btnLogin').click(function (e) {
+                const Email = $("#email").val();
+                const Password = $("#password").val();
+
+                const rm = {Email,Password};
+
+                console.log(rm);
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Login", "Auth")',
+                    data: {
+                        reqModel: rm
+                    },
+                    dataType: "json",
+                    // contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        console.log(data);
+                         alert('success');
+                        location.href = "/auth/user/" + data.userId
+                    },
+                    error: function (ex) {
+                        alert('failed');
+                        console.log(ex.status);
+                    }
+                }
+                );
+            })
+    </script>
+}
