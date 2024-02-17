@@ -1,0 +1,34 @@
+﻿@model List<UserDataModel>
+@{
+    ViewData["title"] = "user";
+}
+<a href="/UserHttpClient/Create" class="btn btn-success">Add new user</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Address</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var user in Model)
+        {
+            <tr>
+                <th scope="row">
+                    <a href="/UserHttpClient/Edit/@user.UserId" class="btn btn-warning">Edit</a>
+                    <a href="/UserHttpClient/Delete/@user.UserId" class="btn btn-danger">Delete</a>
+                </th>
+                <td>@user.UserId</td>
+                <td>@user.UserName</td>
+                <td>@user.UserEmail</td>
+                <td>@user.UserPhone</td>
+                <td>@user.UserAddress</td>
+            </tr>
+            
+        }
+    </tbody>
+</table>

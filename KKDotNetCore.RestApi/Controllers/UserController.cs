@@ -67,8 +67,9 @@ namespace KKDotNetCore.RestApi.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateUser(int id, UserDataModel user)
         {
+            Console.WriteLine(id);
             UserDataModel? item = _dbContext.User.FirstOrDefault(x => x.UserId == id);
-
+            Console.WriteLine($"user => {item is null}");
             if (item is null)
             {
                 return NotFound("No user found");

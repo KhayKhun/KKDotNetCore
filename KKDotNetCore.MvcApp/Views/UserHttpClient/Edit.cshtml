@@ -1,0 +1,24 @@
+﻿@model UserDataModel
+@{
+
+}
+<form method="post" action="/UserHttpClient/Update/@Model.UserId">
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Name</label>
+        <input type="text" class="form-control" value="@Model.UserName" name="UserName" placeholder="">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Email</label>
+        <input type="email" class="form-control" value="@Model.UserEmail" name="UserEmail" placeholder="">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Phone</label>
+        <input type="text" class="form-control" value="@Model.UserPhone" name="UserPhone" placeholder="">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Address</label>
+        <input type="text" class="form-control" value="@Model.UserAddress" name="UserAddress" placeholder="">
+    </div>
+    <a href="/Blogs" class="btn btn-dark">Cancel</a>
+    <button type="submit" class="btn btn-success">Update</button>
+</form>

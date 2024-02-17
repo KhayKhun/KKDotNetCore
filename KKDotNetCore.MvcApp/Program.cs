@@ -1,5 +1,8 @@
+using KKDotNetCore.ConsoleApp.RefitExamples;
 using KKDotNetCore.MvcApp;
 using Microsoft.EntityFrameworkCore;
+using Refit;
+using RestSharp;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +14,28 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseSqlServer(connectionString);
 });
 
+//builder.Services.AddScoped<HttpClient>();
+builder.Services.AddScoped(n =>
+{
+    HttpClient httpClient = new HttpClient()
+    {
+        BaseAddress = new Uri(builder.Configuration.GetSection("ApiUrl").Value!)
+    };
+    return httpClient;
+});
+
+builder.Services.AddScoped(n =>
+{
+    RestClient restClient = new RestClient(builder.Configuration.GetSection("ApiUrl").Value!);
+    return restClient;
+
+});
+
+builder.Services
+    .AddRefitClient<IUserApi>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri(builder.Configuration.GetSection("ApiUrl").Value!));
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
