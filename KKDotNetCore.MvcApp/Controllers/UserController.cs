@@ -9,10 +9,41 @@ namespace KKDotNetCore.MvcApp.Controllers
 
         public UserController(AppDbContext appDbContext) {  _appDbContext = appDbContext; }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageNo=1, int pageSize = 10)
         {
-            var lst = await _appDbContext.User.OrderByDescending(x => x.UserId).ToListAsync();
+            var lst = await _appDbContext.User
+                //.Where(x => x.DeleteFlag == false)
+                .AsNoTracking()
+                .OrderByDescending(x => x.UserId)
+                .ToListAsync();
+
             return View(lst);
+        }
+        public async Task<IActionResult> List(int pageNo=1, int pageSize = 10)
+        {
+            var query = _appDbContext.User
+                //.Where(x => x.DeleteFlag == false)
+                .AsNoTracking()
+                .OrderByDescending(x => x.UserId);
+
+            var lst = await query
+                .Skip((pageNo - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var rowCount = await query.CountAsync();
+            var pageCount = rowCount / pageSize;
+            
+            if(rowCount % pageSize > 0)
+            {
+                pageCount++; 
+            }
+            UserResponseModel model = new UserResponseModel() {
+                Data = lst,
+                PageSetting = new PageSettingModel(pageNo,pageSize,pageCount,rowCount)
+            };
+
+            return View("UserList", model);
         }
         public IActionResult Create()
         {
