@@ -40,7 +40,7 @@ namespace KKDotNetCore.MvcApp.Controllers
             }
             UserResponseModel model = new UserResponseModel() {
                 Data = lst,
-                PageSetting = new PageSettingModel(pageNo,pageSize,pageCount,rowCount)
+                PageSetting = new PageSettingModel(pageNo,pageSize,pageCount,rowCount, "/user/list")
             };
 
             return View("UserList", model);
