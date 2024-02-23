@@ -1,10 +1,17 @@
+using Contracts;
 using KKDotNetCore.ConsoleApp.RefitExamples;
 using KKDotNetCore.MvcApp;
+using LoggerService;
 using Microsoft.EntityFrameworkCore;
+using NLog;
 using Refit;
 using RestSharp;
 
 var builder = WebApplication.CreateBuilder(args);
+
+LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+
+builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

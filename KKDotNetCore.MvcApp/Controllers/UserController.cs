@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Contracts;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace KKDotNetCore.MvcApp.Controllers
@@ -6,10 +7,13 @@ namespace KKDotNetCore.MvcApp.Controllers
     public class UserController : Controller
     {
         private readonly AppDbContext _appDbContext;
+        private readonly ILoggerManager _logger;
+        public UserController(AppDbContext appDbContext, ILoggerManager logger) {
+            _appDbContext = appDbContext; 
+            _logger = logger;
+        }
 
-        public UserController(AppDbContext appDbContext) {  _appDbContext = appDbContext; }
-
-        public async Task<IActionResult> Index(int pageNo=1, int pageSize = 10)
+        public async Task<IActionResult> Index()
         {
             var lst = await _appDbContext.User
                 //.Where(x => x.DeleteFlag == false)
@@ -17,6 +21,7 @@ namespace KKDotNetCore.MvcApp.Controllers
                 .OrderByDescending(x => x.UserId)
                 .ToListAsync();
 
+            _logger.LogInfo("Index: response View.");
             return View(lst);
         }
         public async Task<IActionResult> List(int pageNo=1, int pageSize = 10)
@@ -43,10 +48,12 @@ namespace KKDotNetCore.MvcApp.Controllers
                 PageSetting = new PageSettingModel(pageNo,pageSize,pageCount,rowCount, "/user/list")
             };
 
+            _logger.LogInfo("List: response View.");
             return View("UserList", model);
         }
         public IActionResult Create()
         {
+            _logger.LogInfo("Create: response View.");
             return View();
         }
         [HttpPost]
@@ -55,6 +62,7 @@ namespace KKDotNetCore.MvcApp.Controllers
             await _appDbContext.User.AddAsync(reqModel);
             await _appDbContext.SaveChangesAsync();
 
+            _logger.LogInfo("Save: response View.");
             return RedirectToAction("Index");
         }
 
@@ -62,8 +70,14 @@ namespace KKDotNetCore.MvcApp.Controllers
         {
             var user = await _appDbContext.User.FirstOrDefaultAsync(x => x.UserId == id);
 
-            if (user is null) return RedirectToAction("Index");
+            if (user is null)
+            {
+                _logger.LogDebug($"EditAsync: user with userId={id} is null.");
+                return RedirectToAction("Index");
+            }
 
+            _logger.LogDebug($"Edit: Edited user with userId={id}.");
+            _logger.LogInfo("EditAsync: response View.");
             return View(user);
         }
 
@@ -73,7 +87,11 @@ namespace KKDotNetCore.MvcApp.Controllers
 
             var user = await _appDbContext.User.FirstOrDefaultAsync(x => x.UserId == id);
 
-            if (user is null) return RedirectToAction("Index");
+            if (user is null)
+            {
+                _logger.LogDebug($"EditAsync: user with userId={id} is null.");
+                return RedirectToAction("Index");
+            }
             user.UserEmail = reqModel.UserEmail;
             user.UserPhone = reqModel.UserPhone;
             user.UserAddress = reqModel.UserAddress;
@@ -81,6 +99,8 @@ namespace KKDotNetCore.MvcApp.Controllers
 
             await _appDbContext.SaveChangesAsync();
 
+            _logger.LogDebug($"Update: updated user with userId={id}.");
+            _logger.LogInfo("Update: response View.");
             return RedirectToAction("Index");
         }
 
@@ -88,12 +108,18 @@ namespace KKDotNetCore.MvcApp.Controllers
         {
             var user = await _appDbContext.User.FirstOrDefaultAsync(x => x.UserId == id);
 
-            if (user is null) return RedirectToAction("Index");
+            if (user is null)
+            {
+                _logger.LogDebug($"Delete: user with userId={id} is null.");
+                return RedirectToAction("Index");
+            }
 
             _appDbContext.Remove(user);
             await _appDbContext.SaveChangesAsync();
-            return RedirectToAction("Index");
 
+            _logger.LogDebug($"Delete: deleted user with userId={id}.");
+            _logger.LogInfo("Delete: response View.");
+            return RedirectToAction("Index");
         }
     }
 }
