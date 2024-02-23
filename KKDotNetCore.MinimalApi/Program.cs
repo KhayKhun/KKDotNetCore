@@ -27,6 +27,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseUserService();
+// extention method
+app.UseUserService(); 
 
 app.Run();

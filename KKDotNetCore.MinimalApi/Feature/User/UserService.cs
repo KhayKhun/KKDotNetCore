@@ -63,7 +63,7 @@ namespace KKDotNetCore.MinimalApi.Feature.User
 
                 return Results.Ok(message);
             })
-            .WithName("CreateUser")
+            .WithName("PutUser")
             .WithOpenApi();
             
             app.MapPatch("/api/user/{reqId}", async ([FromServicesAttribute] AppDbContext dbContext,int reqId, [FromBody] UserDataModel reqModel) =>
@@ -95,7 +95,7 @@ namespace KKDotNetCore.MinimalApi.Feature.User
 
                 return Results.Ok(message);
             })
-            .WithName("CreateUser")
+            .WithName("PatchUser")
             .WithOpenApi();
             
             app.MapDelete("/api/user/{reqId}", async ([FromServicesAttribute] AppDbContext dbContext,int reqId) =>
@@ -112,7 +112,7 @@ namespace KKDotNetCore.MinimalApi.Feature.User
 
                 return Results.Ok(message);
             })
-            .WithName("CreateUser")
+            .WithName("DeleteUser")
             .WithOpenApi();
 
             return app;
