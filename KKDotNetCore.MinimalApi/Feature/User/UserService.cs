@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace KKDotNetCore.MinimalApi.Feature.User
 {
@@ -9,6 +10,7 @@ namespace KKDotNetCore.MinimalApi.Feature.User
         {
             app.MapGet("/api/user/{pageNo}/{pageSize}", async ([FromServicesAttribute] AppDbContext dbContext, int pageNo, int PageSize) =>
             {
+                Log.Information($"/api/user/{{pageNo}}/{{pageSize}}: Response users pageNo={pageNo}, pageSize={PageSize}");
                 return await dbContext.User
                 .AsNoTracking()
                 .OrderByDescending(u => u.UserId)
@@ -25,7 +27,13 @@ namespace KKDotNetCore.MinimalApi.Feature.User
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.UserId == reqId);
 
-                if (user is null) return Results.NotFound();
+                if (user is null)
+                {
+                    Log.Information("/api/user/{reqId}: No user found");
+                    return Results.NotFound();
+                }
+
+                Log.Information("/api/user/{reqId}: user found. Response status 200.");
 
                 return Results.Ok(user);
 
@@ -41,6 +49,7 @@ namespace KKDotNetCore.MinimalApi.Feature.User
 
                 string message = result > 0 ? "Saved user." : "Failed to save";
 
+                Log.Information("/api/user/: Response on create user");
                 return Results.Ok(message);
             })
             .WithName("CreateUser")
@@ -60,6 +69,8 @@ namespace KKDotNetCore.MinimalApi.Feature.User
                 int result = await dbContext.SaveChangesAsync();
 
                 string message = result > 0 ? "Updated user." : "Failed to update";
+
+                Log.Information("/api/user/{reqId}: Response on update user");
 
                 return Results.Ok(message);
             })
@@ -93,6 +104,8 @@ namespace KKDotNetCore.MinimalApi.Feature.User
 
                 string message = result > 0 ? "Updated user." : "Failed to update";
 
+                Log.Information("/api/user/{reqId}: Response on patch user");
+
                 return Results.Ok(message);
             })
             .WithName("PatchUser")
@@ -109,6 +122,8 @@ namespace KKDotNetCore.MinimalApi.Feature.User
                 int result = await dbContext.SaveChangesAsync();
 
                 string message = result > 0 ? "Deleted user." : "Failed to delete";
+
+                Log.Information("/api/user/{reqId}: Response on delete user");
 
                 return Results.Ok(message);
             })
