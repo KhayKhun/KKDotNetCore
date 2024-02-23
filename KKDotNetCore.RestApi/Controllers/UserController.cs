@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using log4net;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,11 +10,19 @@ namespace KKDotNetCore.RestApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly AppDbContext _dbContext = new AppDbContext();
+        private readonly ILog _logger;
+
+        public UserController(ILog logger)
+        {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
 
         [HttpGet]
         public IActionResult GetUsers()
         {
             List<UserDataModel> lst = _dbContext.User.ToList();
+            _logger.Info("GetUsers: response user lst.");
             return Ok(lst);
         }
 
@@ -23,8 +32,10 @@ namespace KKDotNetCore.RestApi.Controllers
             UserDataModel? item = _dbContext.User.FirstOrDefault(x => x.UserId == id);
             if (item is null)
             {
+                _logger.Debug($"GetUser: user with userId={id} is null.");
                 return NotFound("No user found");
             }
+            _logger.Info("GetUser: response user.");
             return Ok(item);
         }
 
@@ -42,6 +53,7 @@ namespace KKDotNetCore.RestApi.Controllers
                 PageCount++;
             }
 
+            _logger.Debug($"GetPeginationBlogs: response users pageNo={PageNo}, pageSize={PageSize}.");
             return Ok(new
             {
                 IsEndOfPage = PageNo >= PageCount,
@@ -61,6 +73,7 @@ namespace KKDotNetCore.RestApi.Controllers
 
             string message = result > 0 ? "Saved user." : "Failed to save";
 
+            _logger.Debug($"CreateUser: {message}");
             return Ok(message);
         }
 
@@ -72,6 +85,7 @@ namespace KKDotNetCore.RestApi.Controllers
             Console.WriteLine($"user => {item is null}");
             if (item is null)
             {
+                _logger.Debug($"UpdateUser: user with userId={id} is null");
                 return NotFound("No user found");
             }
 
@@ -84,6 +98,7 @@ namespace KKDotNetCore.RestApi.Controllers
 
             string message = result > 0 ? "Updated user." : "Failed to update";
 
+            _logger.Debug($"UpdateUser: {message}");
             return Ok(message);
         }
 
@@ -94,6 +109,7 @@ namespace KKDotNetCore.RestApi.Controllers
 
             if (item is null)
             {
+                _logger.Debug($"PatchUser: user with userId={id} is null");
                 return NotFound("No user found");
             }
             if (!string.IsNullOrEmpty(user.UserPhone))
@@ -117,6 +133,7 @@ namespace KKDotNetCore.RestApi.Controllers
 
             string message = result > 0 ? "Updated user." : "Failed to update";
 
+            _logger.Debug($"PatchUser: {message}");
             return Ok(message);
         }
 
@@ -127,6 +144,7 @@ namespace KKDotNetCore.RestApi.Controllers
 
             if (item is null)
             {
+                _logger.Debug($"DeleteUser: user with userId={id} is null");
                 return NotFound("User not found");
             }
             _dbContext.Remove(item);
@@ -134,6 +152,7 @@ namespace KKDotNetCore.RestApi.Controllers
 
             string message = result > 0 ? "Deleted user" : "Failed to delete";
 
+            _logger.Debug($"DeleteUser: {message}");
             return Ok(message);
         }
     }
