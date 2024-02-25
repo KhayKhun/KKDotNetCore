@@ -1,6 +1,6 @@
 ﻿using Contracts;
-using KKDotNetCore.UserApiUsingRepositoryPattern.Entities.Models;
-using KKDotNetCore.UserApiUsingRepositoryPattern.Repositories.UserRepository;
+using KKDotNetCore.UserApiUsingRepositoryPattern.Data.Repositories.UserRepository;
+using KKDotNetCore.UserApiUsingRepositoryPattern.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KKDotNetCore.UserApiUsingRepositoryPattern

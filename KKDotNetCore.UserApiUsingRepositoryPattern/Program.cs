@@ -1,6 +1,6 @@
 using Contracts;
-using KKDotNetCore.UserApiUsingRepositoryPattern;
-using KKDotNetCore.UserApiUsingRepositoryPattern.Repositories.UserRepository;
+using KKDotNetCore.UserApiUsingRepositoryPattern.Data.Repositories.UserRepository;
+using KKDotNetCore.UserApiUsingRepositoryPattern.Entities.Context;
 using LoggerService;
 using Microsoft.EntityFrameworkCore;
 using NLog;

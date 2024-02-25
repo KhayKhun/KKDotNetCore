@@ -1,7 +1,7 @@
-﻿using KKDotNetCore.UserApiUsingRepositoryPattern.Entities.Models;
+﻿using KKDotNetCore.UserApiUsingRepositoryPattern.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace KKDotNetCore.UserApiUsingRepositoryPattern
+namespace KKDotNetCore.UserApiUsingRepositoryPattern.Entities.Context
 {
     public class RepositoryContext : DbContext
     {

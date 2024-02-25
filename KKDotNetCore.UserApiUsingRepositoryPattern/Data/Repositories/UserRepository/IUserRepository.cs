@@ -1,6 +1,6 @@
-﻿using KKDotNetCore.UserApiUsingRepositoryPattern.Entities.Models;
+﻿using KKDotNetCore.UserApiUsingRepositoryPattern.Models;
 
-namespace KKDotNetCore.UserApiUsingRepositoryPattern.Repositories.UserRepository
+namespace KKDotNetCore.UserApiUsingRepositoryPattern.Data.Repositories.UserRepository
 {
     public interface IUserRepository
     {

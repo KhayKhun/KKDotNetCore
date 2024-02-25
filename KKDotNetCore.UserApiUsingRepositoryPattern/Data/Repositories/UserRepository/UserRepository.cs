@@ -1,15 +1,17 @@
 ﻿using Contracts;
-using KKDotNetCore.UserApiUsingRepositoryPattern.Entities.Models;
+using KKDotNetCore.UserApiUsingRepositoryPattern.Entities.Context;
+using KKDotNetCore.UserApiUsingRepositoryPattern.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace KKDotNetCore.UserApiUsingRepositoryPattern.Repositories.UserRepository
+namespace KKDotNetCore.UserApiUsingRepositoryPattern.Data.Repositories.UserRepository
 {
     public class UserRepository : IUserRepository
     {
         private readonly RepositoryContext _repositoryContext;
         private readonly ILoggerManager _logger;
 
-        public UserRepository(RepositoryContext repositoryContext, ILoggerManager logger) {
+        public UserRepository(RepositoryContext repositoryContext, ILoggerManager logger)
+        {
             _repositoryContext = repositoryContext;
             _logger = logger;
         }
@@ -45,9 +47,9 @@ namespace KKDotNetCore.UserApiUsingRepositoryPattern.Repositories.UserRepository
 
         public async Task<User> GetUser(int id)
         {
-           User? user = await _repositoryContext.User!
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.UserId == id);
+            User? user = await _repositoryContext.User!
+                 .AsNoTracking()
+                 .FirstOrDefaultAsync(x => x.UserId == id);
 
             _logger.LogDebug($"GetUser: return user with UserId={id}, is null = {user is null}.");
 
