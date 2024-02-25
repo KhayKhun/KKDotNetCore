@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<button type="button" id="btnSend" class="btn btn-success">Send</button>
+<div id="container">
+    <div id="chart"></div>
+</div>
+
+@section scripts{
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script>
+        var connection = new signalR.HubConnectionBuilder().withUrl("/RealtimeHub").build();
+
+        //Disable the send button until connection is established.
+
+        connection.on("ClientReceiveMessage", function (model) {
+            BindChart(JSON.parse(model));
+        });
+
+        connection.start().then(function () {
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
+
+        document.getElementById("btnSend").addEventListener("click", function (e) {
+            e.preventDefault();
+
+            connection.invoke("ServerReceiveMessage").catch(function (err) {
+                return console.error(err.toString());
+            });
+            event.preventDefault();
+        });
+
+        function BindChart(model) {
+            
+            const series = model.Data.Series;
+            const labels = model.Data.Labels;
+            console.log({series,labels})
+            const container = document.getElementById("container").innerHTML = `<div id="chart"></div>`;
+
+            const options = {
+                series: series,
+                chart: {
+                    width: 380,
+                    type: 'pie',
+                },
+                labels: labels,
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            };
+
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+        }
+        const tempData = {
+            Data: {
+                Series : [20,30,10,60],
+                Labels : ["A","B","C","D"]
+            }
+        }
+        BindChart(tempData);
+    </script>
+}
