@@ -17,7 +17,11 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
-		<PackageReference Include="log4net" Version="2.0.15" />
+		<PackageReference Include="NLog.Extensions.Logging" Version="5.3.8" />
+		<PackageReference Include="NLog.Web.AspNetCore" Version="5.3.8" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\LoggerService\LoggerService.csproj" />
 	</ItemGroup>
 
 </Project>

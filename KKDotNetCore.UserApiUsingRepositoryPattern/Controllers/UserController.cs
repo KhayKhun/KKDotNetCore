@@ -1,4 +1,5 @@
-﻿using KKDotNetCore.UserApiUsingRepositoryPattern.Entities.Models;
+﻿using Contracts;
+using KKDotNetCore.UserApiUsingRepositoryPattern.Entities.Models;
 using KKDotNetCore.UserApiUsingRepositoryPattern.Repositories.UserRepository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,14 +10,16 @@ namespace KKDotNetCore.UserApiUsingRepositoryPattern
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly ILoggerManager _logger;
 
-        public UserController( IUserRepository userRepository)
+        public UserController( IUserRepository userRepository, ILoggerManager logger )
         {
             _userRepository = userRepository;
+            _logger = logger;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsersAsync()
+        public async Task<IActionResult> GetUsers()
         {
             try
             {
@@ -25,6 +28,7 @@ namespace KKDotNetCore.UserApiUsingRepositoryPattern
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest();
             }
         }
@@ -43,6 +47,7 @@ namespace KKDotNetCore.UserApiUsingRepositoryPattern
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest();
             }
         }
@@ -58,6 +63,7 @@ namespace KKDotNetCore.UserApiUsingRepositoryPattern
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest();
             }
         }
@@ -73,6 +79,7 @@ namespace KKDotNetCore.UserApiUsingRepositoryPattern
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest();
             }
         }
@@ -88,6 +95,7 @@ namespace KKDotNetCore.UserApiUsingRepositoryPattern
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest();
             }
         }
