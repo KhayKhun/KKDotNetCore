@@ -1,0 +1,65 @@
+﻿@using Newtonsoft.Json
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div id="container">
+    <div id="chart"></div>
+
+</div>
+
+@section scripts{
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script>
+        const startUpData = @Html.Raw(JsonConvert.SerializeObject(Model));
+        console.log(startUpData);
+
+        var connection = new signalR.HubConnectionBuilder().withUrl("/RealtimeHub").build();
+
+        //Disable the send button until connection is established.
+
+        connection.on("ClientRecieveTeam", function (model) {
+            const data = JSON.parse(model);
+            console.log(data);
+            BindChart(data);
+        });
+
+        connection.start().then(function () {
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
+
+        function BindChart(model) {
+
+            const series = model.map(m => m.Score);
+            const labels = model.map(m => m.TeamName);
+            console.log({ series, labels })
+            const container = document.getElementById("container").innerHTML = `<div id="chart"></div>`;
+
+            const options = {
+                series: series,
+                chart: {
+                    width: 380,
+                    type: 'pie',
+                },
+                labels: labels,
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            };
+
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+        }
+        BindChart(startUpData);
+    </script>
+}

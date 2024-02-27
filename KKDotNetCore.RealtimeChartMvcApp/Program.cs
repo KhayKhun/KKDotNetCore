@@ -1,10 +1,17 @@
+using KKDotNetCore.RealtimeChartMvcApp;
 using KKDotNetCore.RealtimeChartMvcApp.Hubs;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
+
+builder.Services.AddDbContext<AppDbContext>(opt =>
+{
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"));
+}, ServiceLifetime.Transient, ServiceLifetime.Transient);
 
 var app = builder.Build();
 
