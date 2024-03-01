@@ -19,11 +19,11 @@ Log.Logger = new LoggerConfiguration()
             .CreateLogger();
 
 Log.Information("Hello World!");
-//AdoDotNetExample ado = new AdoDotNetExample();
+//AdoDotNetExample2 ado = new AdoDotNetExample2();
 //ado.Run();
 
-//DapperExample dpe = new DapperExample();
-//dpe.Run();
+DapperExample2 dpe = new DapperExample2();
+dpe.Run();
 
 //EFCoreExample efc = new EFCoreExample();
 //efc.Run();
@@ -33,20 +33,5 @@ Log.Information("Hello World!");
 
 //RestSharpExample rse = new RestSharpExample();
 //rse.Run();
-RefitExample refitExample = new RefitExample();
+//RefitExample refitExample = new RefitExample();
 //await refitExample.Run();
-
-int a = 10, b = 0;
-try
-{
-    Log.Debug("Dividing {A} by {B}", a, b);
-    Console.WriteLine(a / b);
-}
-catch (Exception ex)
-{
-    Log.Error(ex, "Something went wrong");
-}
-finally
-{
-    await Log.CloseAndFlushAsync();
-}

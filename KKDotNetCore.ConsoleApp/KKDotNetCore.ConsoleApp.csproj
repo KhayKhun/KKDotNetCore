@@ -10,7 +10,8 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
-    <PackageReference Include="Dapper" Version="2.1.24" />
+    <PackageReference Include="Dapper" Version="2.1.28" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.14">
@@ -26,6 +27,10 @@
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="6.5.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\KKDotNetCore.Services\KKDotNetCore.Services.csproj" />
   </ItemGroup>
 
 </Project>

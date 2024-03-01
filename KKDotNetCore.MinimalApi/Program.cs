@@ -1,6 +1,8 @@
 using KKDotNetCore.MinimalApi;
 using KKDotNetCore.MinimalApi.Feature.User;
+using KKDotNetCore.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -25,6 +27,20 @@ try
 
     }, ServiceLifetime.Transient, ServiceLifetime.Transient);
 
+    builder.Services.AddScoped(n =>
+        new AdoDotNetService(
+            new SqlConnectionStringBuilder(
+                builder.Configuration.GetConnectionString("DbConnection")
+            )
+        )
+    );
+    builder.Services.AddScoped(n =>
+        new DapperService(
+            new SqlConnectionStringBuilder(
+                builder.Configuration.GetConnectionString("DbConnection")
+            )
+        )
+    );
 
     var app = builder.Build();
 
@@ -38,7 +54,10 @@ try
     app.UseHttpsRedirection();
 
     // extention method
-    app.UseUserService();
+
+    //app.UseUserAdoDotNetService();
+    //app.UseUserService();
+    app.UseUserDapperService();
 
     app.Run();
 }
