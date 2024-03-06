@@ -1,0 +1,35 @@
+﻿@page "/setup/users"
+@inject HttpClient HttpClient
+
+@if(Model is not null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.data)
+            {
+                <tr>
+                    <th scope="row">
+                        <a href="/User/Edit/@user.UserId" class="btn btn-warning">Edit</a>
+                        <a href="/User/Delete/@user.UserId" class="btn btn-danger">Delete</a>
+                    </th>
+                    <td>@user.UserId</td>
+                    <td>@user.UserName</td>
+                    <td>@user.UserEmail</td>
+                    <td>@user.UserPhone</td>
+                    <td>@user.UserAddress</td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+}
