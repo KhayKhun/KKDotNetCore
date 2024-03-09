@@ -1,0 +1,26 @@
+﻿@page "/setup/user/create"
+@inject HttpClient HttpClient
+@inject IJSRuntime JsRuntime
+
+<h1>New User</h1>
+
+<div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Name</label>
+        <input type="text" class="form-control" @bind-value="_reqModel.UserName" name="UserName"  >
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Email</label>
+        <input type="email" class="form-control" @bind-value="_reqModel.UserEmail" name="UserEmail"  >
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Phone</label>
+        <input type="text" class="form-control" @bind-value="_reqModel.UserPhone" name="UserPhone"  >
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Address</label>
+        <input type="text" class="form-control" @bind-value="_reqModel.UserAddress"  name="UserAddress"  >
+    </div>
+    <a href="/Blogs" class="btn btn-dark">Cancel</a>
+    <button type="button" class="btn btn-success" @onclick="Save">Add</button>
+</div>

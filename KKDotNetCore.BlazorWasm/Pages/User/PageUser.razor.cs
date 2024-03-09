@@ -1,6 +1,7 @@
 ﻿using KKDotNetCore.Models;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
+using static MudBlazor.CategoryTypes;
 
 namespace KKDotNetCore.BlazorWasm.Pages.User
 {
@@ -21,7 +22,7 @@ namespace KKDotNetCore.BlazorWasm.Pages.User
                 await List(_pageNo, _pageSize);
             }
         }
-        private async Task List(int pageNo,int pageSize)
+        private async Task List(int pageNo,int pageSize = 10)
         {
             _pageNo = pageNo;
             _pageSize = pageSize;
@@ -33,8 +34,17 @@ namespace KKDotNetCore.BlazorWasm.Pages.User
                 var jsonStr = await response.Content.ReadAsStringAsync();
                 Model = JsonConvert.DeserializeObject<UserResponseModel>(jsonStr)!;
                 // must call stateHasChanged in updating objects
+                Console.WriteLine(Model.pageCount);
                 StateHasChanged();
             }
+            else
+            {
+                Console.WriteLine("bad");
+            }
+        }
+        private async Task PageChanged(int i = 1)
+        {
+            await List(pageNo: i);
         }
     }
 }

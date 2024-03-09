@@ -46,22 +46,26 @@ namespace KKDotNetCore.RestApi.Controllers
                 .Skip((PageNo - 1) * PageSize)
                 .Take(PageSize)
                 .ToList();
-            int RowCount = _dbContext.Users.Count();
+            int RowCount = _dbContext.User.Count();
             int PageCount = RowCount / PageSize;
             if (RowCount % PageSize > 0)
             {
                 PageCount++;
             }
 
-            _logger.Debug($"GetPeginationBlogs: response users pageNo={PageNo}, pageSize={PageSize}.");
-            return Ok(new
+            _logger.Debug($"GetPeginationBlogs: response users pageNo={PageNo}, pageSize={PageSize}, RowCount={RowCount}, PageCount={PageCount}.");
+
+            var data = new
             {
+                rowCount = RowCount,
                 IsEndOfPage = PageNo >= PageCount,
                 pageCount = PageCount,
                 pageSize = PageSize,
                 pageNo = PageNo,
                 data = lst,
-            });
+            };
+
+            return Ok(data);
 
         }
 

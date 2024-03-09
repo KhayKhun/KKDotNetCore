@@ -1,8 +1,12 @@
-﻿@page "/setup/users"
+﻿@page "/setup/user"
 @inject HttpClient HttpClient
+
+<NavLink href="/setup/user/create" class="btn btn-success">Create user</NavLink>
 
 @if(Model is not null)
 {
+    int count = 0;
+
     <table class="table">
         <thead>
             <tr>
@@ -18,10 +22,11 @@
             @foreach (var user in Model.data)
             {
                 <tr>
-                    <th scope="row">
+                    <th scope="row">@(++count + (Model.pageNo - 1) * Model.pageSize)</th>
+                    <td>
                         <a href="/User/Edit/@user.UserId" class="btn btn-warning">Edit</a>
                         <a href="/User/Delete/@user.UserId" class="btn btn-danger">Delete</a>
-                    </th>
+                    </td>
                     <td>@user.UserId</td>
                     <td>@user.UserName</td>
                     <td>@user.UserEmail</td>
@@ -32,4 +37,5 @@
             }
         </tbody>
     </table>
+    <MudPagination SelectedChanged="PageChanged" Count="@Model.pageCount" Class="pa-4" />
 }
