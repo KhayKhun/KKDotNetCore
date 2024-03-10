@@ -1,7 +1,9 @@
-﻿using KKDotNetCore.Models;
-using Microsoft.AspNetCore.Components;
+﻿using KKDotNetCore.BlazorWasm.Shared;
+using KKDotNetCore.Models;
+using MudBlazor;
 using Newtonsoft.Json;
-using static MudBlazor.CategoryTypes;
+using System.Net.Mime;
+using System.Text;
 
 namespace KKDotNetCore.BlazorWasm.Pages.User
 {
@@ -45,6 +47,38 @@ namespace KKDotNetCore.BlazorWasm.Pages.User
         private async Task PageChanged(int i = 1)
         {
             await List(pageNo: i);
+        }
+
+        private async Task DeleteUser(int reqId)
+        {
+            var parameters = new DialogParameters<DialogBox>();
+            parameters.Add(x => x.Message, "Are you sure to delete this user?");
+            parameters.Add(x => x.ButtonText, "Delete");
+            parameters.Add(x => x.Color, Color.Error);
+
+            var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+            var dialog = await DialogService.ShowAsync<DialogBox>("Confirm delete!", parameters, options);
+            var result = await dialog.Result;
+
+            if(result.Canceled) return;
+
+            var jsonstr = JsonConvert.SerializeObject(reqId);
+            HttpContent content = new StringContent(jsonstr, Encoding.UTF8, MediaTypeNames.Application.Json);
+
+            var res = await HttpClient.DeleteAsync($"/api/user/{reqId}");
+            if (res.IsSuccessStatusCode)
+            {
+                var message = await res.Content.ReadAsStringAsync();
+                Snackbar.Add($"{message}", Severity.Error);
+                Nav.NavigateTo("/setup/user");
+                await List(_pageNo);
+                StateHasChanged();
+            }
+        }
+        private void NavigateEdit(int id)
+        {
+            Nav.NavigateTo($"setup/user/edit/{id}");
         }
     }
 }

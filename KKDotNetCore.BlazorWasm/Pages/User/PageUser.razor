@@ -24,8 +24,8 @@
                 <tr>
                     <th scope="row">@(++count + (Model.pageNo - 1) * Model.pageSize)</th>
                     <td>
-                        <a href="/User/Edit/@user.UserId" class="btn btn-warning">Edit</a>
-                        <a href="/User/Delete/@user.UserId" class="btn btn-danger">Delete</a>
+                        <button type="button" @onclick="() => NavigateEdit(user.UserId)" class="btn btn-warning">Edit</button>
+                        <button type="button" @onclick="() => DeleteUser(user.UserId)" class="btn btn-danger">Delete</button>
                     </td>
                     <td>@user.UserId</td>
                     <td>@user.UserName</td>

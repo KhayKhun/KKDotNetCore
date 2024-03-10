@@ -23,7 +23,6 @@ namespace KKDotNetCore.BlazorWasm.Pages.User
                 Snackbar.Add($"{message}", Severity.Success);
                 Nav.NavigateTo("/setup/user");
             }
-
         }
     }
 }

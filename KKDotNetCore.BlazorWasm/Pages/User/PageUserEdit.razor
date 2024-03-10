@@ -1,0 +1,27 @@
+﻿@page "/setup/user/edit/{id:int}"
+@inject HttpClient HttpClient
+
+<h1>Update User</h1>
+@if(model is not null)
+{
+    <div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Name</label>
+            <input type="text" class="form-control" @bind-value="model.UserName" name="UserName">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Email</label>
+            <input type="email" class="form-control" @bind-value="model.UserEmail" name="UserEmail">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Phone</label>
+            <input type="text" class="form-control" @bind-value="model.UserPhone" name="UserPhone">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Address</label>
+            <input type="text" class="form-control" @bind-value="model.UserAddress" name="UserAddress">
+        </div>
+        <a href="/Blogs" class="btn btn-dark">Cancel</a>
+        <button type="button" class="btn btn-success" @onclick="Update">Add</button>
+    </div>
+}
